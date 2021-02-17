@@ -1,3 +1,5 @@
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xReapex/LaPosteTracker?label=Last%20commit">
+
 <h1>LaPosteTracker - Discord Bot :</h1>
 
 📌Follow the status of your parcels passing through LaPoste, takes care of all types of parcels:
