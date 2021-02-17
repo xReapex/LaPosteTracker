@@ -1,6 +1,6 @@
 <h1>LaPosteTracker - Discord Bot :</h1>
 
-<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xReapex/LaPosteTracker?label=Last%20commit">
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xReapex/LaPosteTracker?label=Last%20commit"> <img alt="npm" src="https://img.shields.io/npm/v/discord.js?label=discord.js">
 
 📌Follow the status of your parcels passing through LaPoste, takes care of all types of parcels:
 - Letters
