@@ -45,7 +45,7 @@ bot.on("message", async (msg) => {
     const autodelete = db.get("guilds").find({ id: msg.guild.id }).get("config[0]['autodeleteMessage']").value();
 
     // return if bot
-    if (msg.author.bot){return};
+    if (msg.author.bot){return;}
 
     // register user
     if (!db.get("users").find({ id: msg.author.id }).value()) {
