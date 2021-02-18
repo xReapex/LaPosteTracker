@@ -120,7 +120,7 @@ bot.on("message", async (msg) => {
             else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(orange)
-                    .setTitle("Le colis n°" + args[1].toUpperCase() + " est introuvable.")
+                    .setTitle("Le colis n°" + args[1].toUpperCase() + " est introuvable.");
                 return msg.channel.send(embed);
             }
         }
@@ -143,7 +143,7 @@ bot.on("message", async (msg) => {
 
         // create table
         const table = new AsciiTable("Colis suivis de " + msg.author.username);
-        table.setHeading("N°", "Status", "Code")
+        table.setHeading("N°", "Status", "Code");
 
         // request callback process
         async function callback(error, response, body) {
@@ -151,8 +151,8 @@ bot.on("message", async (msg) => {
             if (!error && response.statusCode == 200) {
                 const info = JSON.parse(body);
 
-                statusTextLength = info["shipment"]["timeline"].length;
-                statusText = info["shipment"]["timeline"][statusTextLength - 1]['shortLabel'];
+                const statusTextLength = info["shipment"]["timeline"].length;
+                const statusText = info["shipment"]["timeline"][statusTextLength - 1]['shortLabel'];
 
                 await table.addRow(info["shipment"]["idShip"], statusText, info['returnCode']);
 
