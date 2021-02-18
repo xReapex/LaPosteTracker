@@ -35,7 +35,7 @@ bot.on("ready", () => {
     bot.user.setActivity("LaPoste.net", { type: "WATCHING" });
 });
 
-bot.on("message", async msg => {
+bot.on("message", async (msg) => {
 
     // support guild
     if (msg.channel.id !== "810234057241133057" && msg.guild.id === "810227718011748373"){return}
