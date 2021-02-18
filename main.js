@@ -1,91 +1,90 @@
 // ascii
-var AsciiTable = require('ascii-table')
+var AsciiTable = require("ascii-table")
 
 // request
-const request = require('request');
+const request = require("request");
 
 // discord bot client
-const Discord = require('discord.js');
+const Discord = require("discord.js");
 const bot = new Discord.Client();
-const config = require('./config.json')
+const config = require("./config.json");
 
 //lowdb
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync');
-const adapter = new FileSync('db.json')
-const db = low(adapter)
+const low = require("lowdb")
+const FileSync = require("lowdb/adapters/FileSync");
+const adapter = new FileSync("db.json");
+const db = low(adapter);
 
-db.defaults({ users: [], guilds: [] }).write()
+db.defaults({ users: [], guilds: [] }).write();
 
 // colors
-const vert = '#32CD32';
-const orange = '#FFA500';
-const rouge = '#B22222';
+const vert = "#32CD32";
+const orange = "#FFA500";
+const rouge = "#B22222";
 
 // request options
 const options = {
-    url: '',
+    url: "",
     headers: {
-        'X-Okapi-Key': config['X-Okapi-Key'],
-        'Accept': 'application/json',
+        "X-Okapi-Key": config["X-Okapi-Key"],
+        "Accept": "application/json",
     }
 };
 
-bot.on('ready', () => {
-    console.log(`Logged in as ${bot.user.tag}!`);
-    bot.user.setActivity('LaPoste.net', { type: 'WATCHING' })
+bot.on("ready", () => {
+    bot.user.setActivity("LaPoste.net", { type: "WATCHING" });
 });
 
-bot.on('message', async msg => {
+bot.on("message", async msg => {
 
     // support guild
     if (msg.channel.id !== "810234057241133057" && msg.guild.id === "810227718011748373"){return}
 
     // guild options
-    const prefix = db.get('guilds').find({ id: msg.guild.id }).get('config[0]["prefix"]').value();
-    const autodelete = db.get('guilds').find({ id: msg.guild.id }).get('config[0]["autodeleteMessage"]').value();
+    const prefix = db.get("guilds").find({ id: msg.guild.id }).get("config[0]['prefix']").value();
+    const autodelete = db.get("guilds").find({ id: msg.guild.id }).get("config[0]['autodeleteMessage']").value();
 
     // return if bot
     if (msg.author.bot) return;
 
     // register user
-    if (!db.get('users').find({ id: msg.author.id }).value()) {
-        db.get('users').push({ id: msg.author.id }).write();
-        db.get('users').find({ id: msg.author.id }).set('numero', []).write();
+    if (!db.get("users").find({ id: msg.author.id }).value()) {
+        db.get("users").push({ id: msg.author.id }).write();
+        db.get("users").find({ id: msg.author.id }).set("numero", []).write();
     };
 
     //register guild
-    if (!db.get('guilds').find({ id: msg.guild.id }).value()) {
-        db.get('guilds').push({ id: msg.guild.id }).write();
-        db.get('guilds').find({ id: msg.guild.id }).set('config', []).write();
-        db.get('guilds').find({ id: msg.guild.id }).get('config').push({ prefix: 'p.', autodeleteMessage: 'false' }).write()
+    if (!db.get("guilds").find({ id: msg.guild.id }).value()) {
+        db.get("guilds").push({ id: msg.guild.id }).write();
+        db.get("guilds").find({ id: msg.guild.id }).set("config", []).write();
+        db.get("guilds").find({ id: msg.guild.id }).get("config").push({ prefix: "p.", autodeleteMessage: "false" }).write();
 
         const embed = new Discord.MessageEmbed()
                 .setColor(vert)
-                .setTitle('Le serveur a correctement été initialisé ! Démarrez avec "p.help" .')
+                .setTitle("Le serveur a correctement été initialisé ! Démarrez avec \"p.help\" .")
 
             msg.channel.send(embed)
     }
 
     // define args
-    let args = msg.content.split(' ');
+    let args = msg.content.split(" ");
 
     // add colis
-    if (msg.content.startsWith(prefix + 'add')) {
+    if (msg.content.startsWith(prefix + "add")) {
         if(autodelete === "true"){msg.delete()}
 
         // check args
         const embed = new Discord.MessageEmbed()
             .setColor(rouge)
-            .setTitle('Merci de saisir un numéro de suivi.')
+            .setTitle("Merci de saisir un numéro de suivi.")
 
-        if (!args[1]) { return msg.channel.send(embed) }
+        if (!args[1]) { return msg.channel.send(embed); }
 
         // check if colis exists
-        if (db.get('users').find({ id: msg.author.id }).get('numero').find({ colis: args[1].toUpperCase() }).value()) {
+        if (db.get("users").find({ id: msg.author.id }).get("numero").find({ colis: args[1].toUpperCase() }).value()) {
             const embed = new Discord.MessageEmbed()
                 .setColor(orange)
-                .setTitle('Ce numéro de colis existe déjà.')
+                .setTitle("Ce numéro de colis existe déjà.")
 
             msg.channel.send(embed)
         }
