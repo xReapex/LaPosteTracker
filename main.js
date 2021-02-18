@@ -63,7 +63,7 @@ bot.on("message", async msg => {
                 .setColor(vert)
                 .setTitle("Le serveur a correctement été initialisé ! Démarrez avec \"p.help\" .")
 
-            msg.channel.send(embed)
+            msg.channel.send(embed);
     }
 
     // define args
@@ -86,42 +86,42 @@ bot.on("message", async msg => {
                 .setColor(orange)
                 .setTitle("Ce numéro de colis existe déjà.")
 
-            msg.channel.send(embed)
+            msg.channel.send(embed);
         }
         else {
             const embed = new Discord.MessageEmbed()
                 .setColor(vert)
-                .setTitle('Colis correctement ajouté.')
+                .setTitle("Colis correctement ajouté.")
 
-            msg.channel.send(embed)
+            msg.channel.send(embed);
             // push colis number
-            db.get('users').find({ id: msg.author.id }).get('numero').push({ colis: args[1].toUpperCase() }).write();
+            db.get("users").find({ id: msg.author.id }).get("numero").push({ colis: args[1].toUpperCase() }).write();
         }
     }
 
     if (msg.content.startsWith(prefix + "remove")) {
-        if(autodelete === "true"){msg.delete()}
+        if(autodelete === "true"){msg.delete();}
         if (!args[1]) {
             const embed = new Discord.MessageEmbed()
                 .setColor(rouge)
-                .setTitle('Merci de choisir un colis à supprimer.')
+                .setTitle("Merci de choisir un colis à supprimer.")
 
-            return msg.channel.send(embed)
+            return msg.channel.send(embed);
         }
         else {
-            if (db.get('users').find({ id: msg.author.id }).get('numero').find({ colis: args[1].toUpperCase() }).value()) {
-                db.get('users').find({ id: msg.author.id }).get('numero').remove({ colis: args[1].toUpperCase() }).write()
+            if (db.get("users").find({ id: msg.author.id }).get("numero").find({ colis: args[1].toUpperCase() }).value()) {
+                db.get("users").find({ id: msg.author.id }).get("numero").remove({ colis: args[1].toUpperCase() }).write();
 
                 const embed = new Discord.MessageEmbed()
                     .setColor(vert)
-                    .setTitle('Le colis n°' + args[1].toUpperCase() + " a bien été supprimé.")
-                return msg.channel.send(embed)
+                    .setTitle("Le colis n°" + args[1].toUpperCase() + " a bien été supprimé.")
+                return msg.channel.send(embed);
             }
             else {
                 const embed = new Discord.MessageEmbed()
                     .setColor(orange)
-                    .setTitle('Le colis n°' + args[1].toUpperCase() + " est introuvable.")
-                return msg.channel.send(embed)
+                    .setTitle("Le colis n°" + args[1].toUpperCase() + " est introuvable.")
+                return msg.channel.send(embed);
             }
         }
     }
@@ -130,20 +130,20 @@ bot.on("message", async msg => {
         if(autodelete === "true"){msg.delete()}
 
         // check colis
-        allColis = db.get('users').find({ id: msg.author.id }).get('numero').map('colis').value();
+        allColis = db.get("users").find({ id: msg.author.id }).get("numero").map("colis").value();
 
         // check if colis null
         if (allColis.length === 0) {
             const embed = new Discord.MessageEmbed()
                 .setColor(orange)
-                .setTitle('Pas de colis enregistré.')
+                .setTitle("Pas de colis enregistré.")
 
-            return msg.channel.send(embed)
+            return msg.channel.send(embed);
         }
 
         // create table
         const table = new AsciiTable("Colis suivis de " + msg.author.username);
-        table.setHeading('N°', 'Status', 'Code')
+        table.setHeading("N°", "Status", "Code")
 
         // request callback process
         async function callback(error, response, body) {
@@ -151,14 +151,14 @@ bot.on("message", async msg => {
             if (!error && response.statusCode == 200) {
                 const info = JSON.parse(body);
 
-                statusTextLength = info['shipment']['timeline'].length;
-                statusText = info['shipment']['timeline'][statusTextLength - 1]['shortLabel']
+                statusTextLength = info["shipment"]["timeline"].length;
+                statusText = info["shipment"]["timeline"][statusTextLength - 1]['shortLabel'];
 
-                await table.addRow(info['shipment']['idShip'], statusText, info['returnCode'])
+                await table.addRow(info["shipment"]["idShip"], statusText, info['returnCode']);
 
             } else {
                 const info = JSON.parse(body);
-                await table.addRow(info['idShip'], '/', info['returnCode'])
+                await table.addRow(info["idShip"], "/", info["returnCode"]);
             }
         }
 
