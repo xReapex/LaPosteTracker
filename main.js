@@ -104,7 +104,7 @@ bot.on("message", async (msg) => {
         if (!args[1]) {
             const embed = new Discord.MessageEmbed()
                 .setColor(rouge)
-                .setTitle("Merci de choisir un colis à supprimer.")
+                .setTitle("Merci de choisir un colis à supprimer.");
 
             return msg.channel.send(embed);
         }
