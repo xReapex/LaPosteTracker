@@ -1,4 +1,4 @@
-<h1>✨LaPosteTracker - Discord Bot :</h1>
+<h1>✨LaPosteTracker - Discord Bot</h1>
 
 📌Follow the status of your parcels passing through LaPoste, takes care of all types of parcels:
 - Letters
